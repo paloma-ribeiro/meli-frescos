@@ -44,3 +44,21 @@ func (m mariadbRepository) GetAll(ctx context.Context) (*[]domain.Employee, erro
 
 	return &employees, nil
 }
+
+func (m mariadbRepository) GetById(ctx context.Context, id int64) (*domain.Employee, error) {
+	row := m.db.QueryRowContext(ctx, "SELECT * FROM employees WHERE ID = ?", id)
+
+	var employee domain.Employee
+
+	if err := row.Scan(
+		&employee.ID,
+		&employee.CardNumberId,
+		&employee.FirstName,
+		&employee.LastName,
+		&employee.WarehouseId,
+	); err != nil {
+		return &employee, err
+	}
+
+	return &employee, nil
+}
