@@ -76,7 +76,12 @@ func (m mariadbRepository) GetById(ctx context.Context, id int64) (*domain.Emplo
 func (m mariadbRepository) Create(ctx context.Context, employee *domain.Employee) (*domain.Employee, error) {
 	var newEmployee domain.Employee
 
-	result, err := m.db.ExecContext(ctx, queryCreate)
+	result, err := m.db.ExecContext(ctx, queryCreate,
+		&newEmployee.CardNumberId,
+		&newEmployee.FirstName,
+		&newEmployee.LastName,
+		&newEmployee.WarehouseId,
+	)
 
 	if err != nil {
 		return &newEmployee, err
