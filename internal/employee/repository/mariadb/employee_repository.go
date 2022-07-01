@@ -17,7 +17,7 @@ func NewMariaDBRepository(de *sql.DB) domain.EmployeeRepository {
 }
 
 func (m mariadbRepository) GetAll(ctx context.Context) (*[]domain.Employee, error) {
-	rows, err := m.db.QueryContext(ctx, "SELECT * FROM employees")
+	rows, err := m.db.QueryContext(ctx, queryGetAll)
 
 	if err != nil {
 		return &[]domain.Employee{}, err
@@ -47,9 +47,8 @@ func (m mariadbRepository) GetAll(ctx context.Context) (*[]domain.Employee, erro
 }
 
 func (m mariadbRepository) GetById(ctx context.Context, id int64) (*domain.Employee, error) {
-	query := `SELECT * FROM employees WHERE ID = ?`
 
-	row := m.db.QueryRowContext(ctx, query, id)
+	row := m.db.QueryRowContext(ctx, queryGetById, id)
 
 	var employee domain.Employee
 
@@ -77,9 +76,7 @@ func (m mariadbRepository) GetById(ctx context.Context, id int64) (*domain.Emplo
 func (m mariadbRepository) Create(ctx context.Context, employee *domain.Employee) (*domain.Employee, error) {
 	var newEmployee domain.Employee
 
-	query := `INSERT INTO employees () VALUES ()`
-
-	result, err := m.db.ExecContext(ctx, query)
+	result, err := m.db.ExecContext(ctx, queryCreate)
 
 	if err != nil {
 		return &newEmployee, err
