@@ -3,6 +3,7 @@ package mariadb
 import (
 	"context"
 	"database/sql"
+	"errors"
 
 	"github.com/paloma-ribeiro/meli-frescos/internal/employee/domain"
 )
@@ -46,19 +47,51 @@ func (m mariadbRepository) GetAll(ctx context.Context) (*[]domain.Employee, erro
 }
 
 func (m mariadbRepository) GetById(ctx context.Context, id int64) (*domain.Employee, error) {
-	row := m.db.QueryRowContext(ctx, "SELECT * FROM employees WHERE ID = ?", id)
+	query := `SELECT * FROM employees WHERE ID = ?`
+
+	row := m.db.QueryRowContext(ctx, query, id)
 
 	var employee domain.Employee
 
-	if err := row.Scan(
+	err := row.Scan(
 		&employee.ID,
 		&employee.CardNumberId,
 		&employee.FirstName,
 		&employee.LastName,
 		&employee.WarehouseId,
-	); err != nil {
+	)
+
+	// ID not found
+	if errors.Is(err, sql.ErrNoRows) {
+		return &employee, domain.ErrIdNotFound
+	}
+
+	// Other errors
+	if err != nil {
 		return &employee, err
 	}
 
 	return &employee, nil
+}
+
+func (m mariadbRepository) Create(ctx context.Context, employee *domain.Employee) (*domain.Employee, error) {
+	var newEmployee domain.Employee
+
+	query := `INSERT INTO employees () VALUES ()`
+
+	result, err := m.db.ExecContext(ctx, query)
+
+	if err != nil {
+		return &newEmployee, err
+	}
+
+	lastId, err := result.LastInsertId()
+
+	if err != nil {
+		return &newEmployee, err
+	}
+
+	newEmployee.ID = lastId
+
+	return &newEmployee, nil
 }
