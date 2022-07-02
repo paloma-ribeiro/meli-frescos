@@ -97,3 +97,21 @@ func (m mariadbRepository) Create(ctx context.Context, employee *domain.Employee
 
 	return &newEmployee, nil
 }
+
+func (m mariadbRepository) Update(ctx context.Context, employee *domain.Employee) (*domain.Employee, error) {
+	var newEmployee domain.Employee
+
+	_, err := m.db.ExecContext(ctx, queryCreate,
+		&newEmployee.CardNumberId,
+		&newEmployee.FirstName,
+		&newEmployee.LastName,
+		&newEmployee.WarehouseId,
+		&newEmployee.ID,
+	)
+
+	if err != nil {
+		return &newEmployee, err
+	}
+
+	return &newEmployee, nil
+}
