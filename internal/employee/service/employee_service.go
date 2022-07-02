@@ -53,3 +53,13 @@ func (e employeeService) Update(ctx context.Context, employee *domain.Employee) 
 
 	return employee, nil
 }
+
+func (e employeeService) Delete(ctx context.Context, id int64) error {
+	err := e.repository.Delete(ctx, id)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
