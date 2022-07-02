@@ -33,3 +33,13 @@ func (e employeeService) GetById(ctx context.Context, id int64) (*domain.Employe
 
 	return employee, nil
 }
+
+func (e employeeService) Create(ctx context.Context, employee *domain.Employee) (*domain.Employee, error) {
+	employee, err := e.repository.Create(ctx, employee)
+
+	if err != nil {
+		return employee, err
+	}
+
+	return employee, nil
+}
