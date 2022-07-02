@@ -43,3 +43,13 @@ func (e employeeService) Create(ctx context.Context, employee *domain.Employee) 
 
 	return employee, nil
 }
+
+func (e employeeService) Update(ctx context.Context, employee *domain.Employee) (*domain.Employee, error) {
+	employee, err := e.repository.Update(ctx, employee)
+
+	if err != nil {
+		return employee, err
+	}
+
+	return employee, nil
+}
