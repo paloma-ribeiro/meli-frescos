@@ -28,4 +28,6 @@ const (
 	last_name=?, 
 	warehouse_id=?
 	WHERE ID =?`
+
+	queryDelete = `DELETE FROM employees WHERE id=?`
 )

@@ -12,7 +12,7 @@ type mariadbRepository struct {
 	db *sql.DB
 }
 
-func NewMariaDBRepository(de *sql.DB) domain.EmployeeRepository {
+func NewMariaDBRepository(db *sql.DB) domain.EmployeeRepository {
 	return mariadbRepository{db: db}
 }
 
