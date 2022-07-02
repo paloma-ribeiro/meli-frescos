@@ -23,3 +23,13 @@ func (e employeeService) GetAll(ctx context.Context) (*[]domain.Employee, error)
 
 	return employees, nil
 }
+
+func (e employeeService) GetById(ctx context.Context, id int64) (*domain.Employee, error) {
+	employee, err := e.repository.GetById(ctx, id)
+
+	if err != nil {
+		return employee, err
+	}
+
+	return employee, nil
+}
