@@ -115,3 +115,24 @@ func (m mariadbRepository) Update(ctx context.Context, employee *domain.Employee
 
 	return &newEmployee, nil
 }
+
+func (m mariadbRepository) Delete(ctx context.Context, id int64) error {
+	result, err := m.db.ExecContext(ctx, queryDelete, id)
+	if err != nil {
+		return err
+	}
+
+	affectedRows, err := result.RowsAffected()
+
+	// ID not found
+	if affectedRows == 0 {
+		return domain.ErrIdNotFound
+	}
+
+	// Other errors
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
