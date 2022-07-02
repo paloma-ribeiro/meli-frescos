@@ -1,9 +1,9 @@
 name: Go Test
 on:
   push:
-    branches: [ "development", "main" ]
+    branches: [ "developer", "main" ]
   pull_request:
-    branches: [ "development", "main" ]
+    branches: [ "developer", "main" ]
 jobs:
   build:
     runs-on: ubuntu-latest
