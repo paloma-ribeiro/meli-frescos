@@ -1,5 +1,11 @@
 # Meli Frescos
 
+<p align="center">
+  <a href="https://github.com/paloma-ribeiro/meli-frescos/actions/workflows/test.yml">
+    <img src="https://github.com/paloma-ribeiro/meli-frescos/actions/workflows/test.yml/badge.svg">
+  </a>
+</p>
+
 ### Inicialização da aplicação
 
 > go mod init github.com/paloma-ribeiro/meli-frescos
