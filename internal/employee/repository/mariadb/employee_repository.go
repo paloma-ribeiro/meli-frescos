@@ -101,7 +101,7 @@ func (m mariadbRepository) Create(ctx context.Context, employee *domain.Employee
 func (m mariadbRepository) Update(ctx context.Context, employee *domain.Employee) (*domain.Employee, error) {
 	var newEmployee domain.Employee
 
-	_, err := m.db.ExecContext(ctx, queryCreate,
+	result, err := m.db.ExecContext(ctx, queryCreate,
 		&newEmployee.CardNumberId,
 		&newEmployee.FirstName,
 		&newEmployee.LastName,
@@ -109,6 +109,14 @@ func (m mariadbRepository) Update(ctx context.Context, employee *domain.Employee
 		&newEmployee.ID,
 	)
 
+	affectedRows, err := result.RowsAffected()
+
+	// ID not found
+	if affectedRows == 0 {
+		return &newEmployee, domain.ErrIdNotFound
+	}
+
+	// Other errors
 	if err != nil {
 		return &newEmployee, err
 	}
