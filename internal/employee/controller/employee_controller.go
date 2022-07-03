@@ -1,6 +1,9 @@
 package controller
 
 import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
 	"github.com/paloma-ribeiro/meli-frescos/internal/employee/domain"
 )
 
@@ -16,4 +19,25 @@ func NewEmployeeController(service domain.EmployeeService) (*EmployeeController,
 	return &EmployeeController{
 		service: service,
 	}, nil
+}
+
+// @Summary List employees
+// @Tags Employees
+// @Description get all employees
+// @Accept json
+// @Produce json
+// @Success 200 {object} schemes.JSONSuccessResult{data=schemes.Employee}
+// @Failure 404 {object} schemes.JSONBadReqResult{error=string}
+// @Router /employees [get]
+func (c EmployeeController) GetAll() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		employees, err := c.service.GetAll(ctx)
+
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": err.Error()})
+			return
+		}
+
+		ctx.JSON(http.StatusOK, gin.H{"data": employees})
+	}
 }
