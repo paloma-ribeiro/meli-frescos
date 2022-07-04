@@ -136,7 +136,7 @@ func (c EmployeeController) Update() gin.HandlerFunc {
 
 		var req requestEmployee
 		if err := ctx.ShouldBindJSON(&req); err != nil {
-			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
 
@@ -153,5 +153,34 @@ func (c EmployeeController) Update() gin.HandlerFunc {
 		}
 
 		ctx.JSON(http.StatusOK, employee)
+	}
+}
+
+// @Summary Delete employee
+// @Tags Employees
+// @Description Delete existing employee in list
+// @Accept json
+// @Produce json
+// @Param id path int true "Employee ID"
+// @Success 204 {object} schemes.JSONSuccessResult{data=string}
+// @Failure 400 {object} schemes.JSONBadReqResult{error=string}
+// @Failure 404 {object} schemes.JSONBadReqResult{error=string}
+// @Router /employees/{id} [delete]
+func (c EmployeeController) Delete() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+
+		id, err := strconv.Atoi(ctx.Param("id"))
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		err = c.service.Delete(ctx, id)
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": err.Error()})
+			return
+		}
+
+		ctx.JSON(http.StatusNoContent, nil)
 	}
 }
