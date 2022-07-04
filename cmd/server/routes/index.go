@@ -7,5 +7,5 @@ import (
 )
 
 func AddRoutes(superRouter *gin.RouterGroup, dbConnection *sql.DB) {
-	employeesRouter(superRouter)
+	employeesRouter(superRouter, dbConnection)
 }
