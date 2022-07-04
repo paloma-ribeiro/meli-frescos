@@ -11,8 +11,8 @@ import (
 
 func employeesRouter(superRouter *gin.RouterGroup, conn *sql.DB) {
 	repository := mariadb.NewMariaDBRepository(conn)
-	service := service.NewService(repository)
-	controller := controller.NewEmployeeController(service)
+	service := service.NewEmployeeService(repository)
+	controller, _ := controller.NewEmployeeController(service)
 
 	pr := superRouter.Group("/employees")
 	{
