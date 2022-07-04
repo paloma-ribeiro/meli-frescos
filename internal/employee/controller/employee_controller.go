@@ -9,10 +9,10 @@ import (
 )
 
 type requestEmployee struct {
-	CardNumberId string `json:"card_number_id"`
-	FirstName    string `json:"first_name"`
-	LastName     string `json:"last_name"`
-	WarehouseId  int    `json:"warehouse_id"`
+	CardNumberId string `json:"card_number_id" binding:"required"`
+	FirstName    string `json:"first_name" binding:"required"`
+	LastName     string `json:"last_name" binding:"required"`
+	WarehouseId  int    `json:"warehouse_id" binding:"required"`
 }
 
 type EmployeeController struct {
