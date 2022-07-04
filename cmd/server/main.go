@@ -6,9 +6,11 @@ import (
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
-	"github.com/marcoglnd/mercado-fresco-packmain/db"
+
 	"github.com/paloma-ribeiro/meli-frescos/cmd/server/routes"
-	"github.com/swaggo/gin-swagger/swaggerFiles"
+	"github.com/paloma-ribeiro/meli-frescos/db"
+
+	//"github.com/swaggo/gin-swagger/swaggerFiles"
 	"github.com/swaggo/swag/example/basic/docs"
 )
 
@@ -38,6 +40,6 @@ func main() {
 	routerGroup := router.Group(PATH)
 	routes.AddRoutes(routerGroup, dbConnection)
 	docs.SwaggerInfo.BasePath = PATH
-	router.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	//router.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	router.Run()
 }
