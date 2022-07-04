@@ -12,7 +12,7 @@ type requestEmployee struct {
 	CardNumberId string `json:"card_number_id"`
 	FirstName    string `json:"first_name"`
 	LastName     string `json:"last_name"`
-	WarehouseId  int64  `json:"warehouse_id"`
+	WarehouseId  int    `json:"warehouse_id"`
 }
 
 type EmployeeController struct {
@@ -39,8 +39,8 @@ func NewEmployeeController(service domain.EmployeeService) (*EmployeeController,
 // @Router /employees [get]
 func (c EmployeeController) GetAll() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		employees, err := c.service.GetAll(ctx)
 
+		employees, err := c.service.GetAll(ctx)
 		if err != nil {
 			ctx.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": err.Error()})
 			return
@@ -62,14 +62,14 @@ func (c EmployeeController) GetAll() gin.HandlerFunc {
 // @Router /employees/{id} [get]
 func (c EmployeeController) GetById() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
 
+		id, err := strconv.Atoi(ctx.Param("id"))
 		if err != nil {
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		employee, err := c.service.GetById(ctx, id)
 
+		employee, err := c.service.GetById(ctx, id)
 		if err != nil {
 			ctx.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": err.Error()})
 			return
@@ -91,8 +91,8 @@ func (c EmployeeController) GetById() gin.HandlerFunc {
 
 func (c EmployeeController) Create() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		var req requestEmployee
 
+		var req requestEmployee
 		if err := ctx.ShouldBindJSON(&req); err != nil {
 			ctx.AbortWithStatusJSON(http.StatusUnprocessableEntity, gin.H{"error": err.Error()})
 			return
@@ -104,12 +104,54 @@ func (c EmployeeController) Create() gin.HandlerFunc {
 			LastName:     req.LastName,
 			WarehouseId:  req.WarehouseId,
 		})
-
 		if err != nil {
 			ctx.AbortWithStatusJSON(http.StatusConflict, gin.H{"error": err.Error()})
 			return
 		}
 
 		ctx.JSON(http.StatusCreated, employee)
+	}
+}
+
+// @Summary Update employee
+// @Tags Employees
+// @Description Update existing employee in list
+// @Accept json
+// @Produce json
+// @Param id path int true "Employee ID"
+// @Param employee body requestEmployee true "Employee to update"
+// @Success 200 {object} schemes.Employee
+// @Failure 400 {object} schemes.JSONBadReqResult{error=string}
+// @Failure 404 {object} schemes.JSONBadReqResult{error=string}
+// @Router /employees/{id} [patch]
+
+func (c EmployeeController) Update() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+
+		id, err := strconv.Atoi(ctx.Param("id"))
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		var req requestEmployee
+		if err := ctx.ShouldBindJSON(&req); err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		employee, err := c.service.Update(ctx, &domain.Employee{
+			ID:           id,
+			CardNumberId: req.CardNumberId,
+			FirstName:    req.FirstName,
+			LastName:     req.LastName,
+			WarehouseId:  req.WarehouseId,
+		})
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": err.Error()})
+			return
+		}
+
+		ctx.JSON(http.StatusOK, employee)
 	}
 }
