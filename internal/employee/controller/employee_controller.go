@@ -2,6 +2,7 @@ package controller
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/paloma-ribeiro/meli-frescos/internal/employee/domain"
@@ -39,5 +40,23 @@ func (c EmployeeController) GetAll() gin.HandlerFunc {
 		}
 
 		ctx.JSON(http.StatusOK, gin.H{"data": employees})
+	}
+}
+
+func (c EmployeeController) GetById() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
+
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		employee, err := c.service.GetById(ctx, id)
+
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": err.Error()})
+			return
+		}
+		ctx.JSON(http.StatusOK, employee)
 	}
 }
