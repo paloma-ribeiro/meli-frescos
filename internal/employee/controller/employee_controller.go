@@ -43,6 +43,16 @@ func (c EmployeeController) GetAll() gin.HandlerFunc {
 	}
 }
 
+// @Summary Employee by id
+// @Tags Employees
+// @Description get employee by id
+// @Accept json
+// @Produce json
+// @Param id path int true "Employee ID"
+// @Success 200 {object} schemes.Employee
+// @Failure 400 {object} schemes.JSONBadReqResult{error=string}
+// @Failure 404 {object} schemes.JSONBadReqResult{error=string}
+// @Router /employees/{id} [get]
 func (c EmployeeController) GetById() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
