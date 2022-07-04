@@ -3,8 +3,8 @@ version: "3.9"
 services:
   mariadb:
     image: mariadb:10.8.3
-    container_name: meli-fresco
-    hostname: meli-fresco
+    container_name: meli_frescos
+    hostname: meli_frescos
     restart: unless-stopped
     volumes:
       - ./db/:/docker-entrypoint-initdb.d

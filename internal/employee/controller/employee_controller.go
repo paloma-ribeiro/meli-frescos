@@ -34,7 +34,7 @@ func NewEmployeeController(service domain.EmployeeService) (*EmployeeController,
 // @Description get all employees
 // @Accept json
 // @Produce json
-// @Success 200 {object} schemes.JSONSuccessResult{data=schemes.Employee}
+// @Success 200 {object} schemes.JSONSuccessResult{data=employees.Employee}
 // @Failure 404 {object} schemes.JSONBadReqResult{error=string}
 // @Router /employees [get]
 func (c EmployeeController) GetAll() gin.HandlerFunc {
@@ -56,7 +56,7 @@ func (c EmployeeController) GetAll() gin.HandlerFunc {
 // @Accept json
 // @Produce json
 // @Param id path int true "Employee ID"
-// @Success 200 {object} schemes.Employee
+// @Success 200 {object} employees.Employee
 // @Failure 400 {object} schemes.JSONBadReqResult{error=string}
 // @Failure 404 {object} schemes.JSONBadReqResult{error=string}
 // @Router /employees/{id} [get]
@@ -84,7 +84,7 @@ func (c EmployeeController) GetById() gin.HandlerFunc {
 // @Accept json
 // @Produce json
 // @Param employee body requestEmployee true "Employee to create"
-// @Success 201 {object} schemes.Employee
+// @Success 201 {object} employees.Employee
 // @Failure 404 {object} schemes.JSONBadReqResult{error=string}
 // @Failure 422 {object} schemes.JSONBadReqResult{error=string}
 // @Router /employees [post]
@@ -120,9 +120,10 @@ func (c EmployeeController) Create() gin.HandlerFunc {
 // @Produce json
 // @Param id path int true "Employee ID"
 // @Param employee body requestEmployee true "Employee to update"
-// @Success 200 {object} schemes.Employee
+// @Success 200 {object} employees.Employee
 // @Failure 400 {object} schemes.JSONBadReqResult{error=string}
 // @Failure 404 {object} schemes.JSONBadReqResult{error=string}
+// @Failure 422 {object} schemes.JSONBadReqResult{error=string}
 // @Router /employees/{id} [patch]
 
 func (c EmployeeController) Update() gin.HandlerFunc {

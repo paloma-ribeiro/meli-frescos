@@ -21,3 +21,19 @@
 ### Instalação do Gin
 
 > go get -u github.com/gin-gonic/gin
+
+### Instalação GoDotEnv
+
+> go get github.com/joho/godotenv
+
+### Instalação do Swagger
+
+> go get -u github.com/swaggo/swag/cmd/swag
+
+> go get -u github.com/swaggo/files
+
+> go get -u github.com/swaggo/gin-swagger
+
+#### Gerar documentação com swagger
+
+> swag init -g cmd/server/main.go
