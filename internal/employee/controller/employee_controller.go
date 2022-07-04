@@ -8,6 +8,13 @@ import (
 	"github.com/paloma-ribeiro/meli-frescos/internal/employee/domain"
 )
 
+type requestEmployee struct {
+	CardNumberId string `json:"card_number_id"`
+	FirstName    string `json:"first_name"`
+	LastName     string `json:"last_name"`
+	WarehouseId  int64  `json:"warehouse_id"`
+}
+
 type EmployeeController struct {
 	service domain.EmployeeService
 }
@@ -68,5 +75,41 @@ func (c EmployeeController) GetById() gin.HandlerFunc {
 			return
 		}
 		ctx.JSON(http.StatusOK, employee)
+	}
+}
+
+// @Summary Create employee
+// @Tags Employees
+// @Description Add a new employee to the list
+// @Accept json
+// @Produce json
+// @Param employee body requestEmployee true "Employee to create"
+// @Success 201 {object} schemes.Employee
+// @Failure 404 {object} schemes.JSONBadReqResult{error=string}
+// @Failure 422 {object} schemes.JSONBadReqResult{error=string}
+// @Router /employees [post]
+
+func (c EmployeeController) Create() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		var req requestEmployee
+
+		if err := ctx.ShouldBindJSON(&req); err != nil {
+			ctx.AbortWithStatusJSON(http.StatusUnprocessableEntity, gin.H{"error": err.Error()})
+			return
+		}
+
+		employee, err := c.service.Create(ctx, &domain.Employee{
+			CardNumberId: req.CardNumberId,
+			FirstName:    req.FirstName,
+			LastName:     req.LastName,
+			WarehouseId:  req.WarehouseId,
+		})
+
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusConflict, gin.H{"error": err.Error()})
+			return
+		}
+
+		ctx.JSON(http.StatusCreated, employee)
 	}
 }
