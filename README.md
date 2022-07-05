@@ -42,6 +42,10 @@
 
 > go get github.com/stretchr/testify
 
+### Instalação DATA-DOG sqlmock
+
+> go get github.com/DATA-DOG/go-sqlmock
+
 ### Instalação do Mockery
 
 > brew install mockery
