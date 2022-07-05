@@ -74,13 +74,13 @@ func (m mariadbRepository) GetById(ctx context.Context, id int) (*domain.Employe
 }
 
 func (m mariadbRepository) Create(ctx context.Context, employee *domain.Employee) (*domain.Employee, error) {
-	var newEmployee domain.Employee
+	newEmployee := domain.Employee{}
 
 	result, err := m.db.ExecContext(ctx, queryCreate,
-		&newEmployee.CardNumberId,
-		&newEmployee.FirstName,
-		&newEmployee.LastName,
-		&newEmployee.WarehouseId,
+		&employee.CardNumberId,
+		&employee.FirstName,
+		&employee.LastName,
+		&employee.WarehouseId,
 	)
 
 	if err != nil {
@@ -93,9 +93,9 @@ func (m mariadbRepository) Create(ctx context.Context, employee *domain.Employee
 		return &newEmployee, err
 	}
 
-	newEmployee.ID = int(lastId)
+	employee.ID = int(lastId)
 
-	return &newEmployee, nil
+	return employee, nil
 }
 
 func (m mariadbRepository) Update(ctx context.Context, employee *domain.Employee) (*domain.Employee, error) {
