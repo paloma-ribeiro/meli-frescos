@@ -37,3 +37,15 @@
 #### Gerar documentação com swagger
 
 > swag init -g cmd/server/main.go
+
+### Instalação do Testify
+
+> go get github.com/stretchr/testify
+
+### Instalação do Mockery
+
+> brew install mockery
+
+#### Gerar mockery para testes
+
+> mockery --all --keeptree
