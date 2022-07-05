@@ -102,11 +102,11 @@ func (m mariadbRepository) Update(ctx context.Context, employee *domain.Employee
 	var newEmployee domain.Employee
 
 	result, err := m.db.ExecContext(ctx, queryCreate,
-		&newEmployee.CardNumberId,
-		&newEmployee.FirstName,
-		&newEmployee.LastName,
-		&newEmployee.WarehouseId,
-		&newEmployee.ID,
+		&employee.CardNumberId,
+		&employee.FirstName,
+		&employee.LastName,
+		&employee.WarehouseId,
+		&employee.ID,
 	)
 
 	affectedRows, err := result.RowsAffected()
@@ -121,7 +121,7 @@ func (m mariadbRepository) Update(ctx context.Context, employee *domain.Employee
 		return &newEmployee, err
 	}
 
-	return &newEmployee, nil
+	return employee, nil
 }
 
 func (m mariadbRepository) Delete(ctx context.Context, id int) error {
