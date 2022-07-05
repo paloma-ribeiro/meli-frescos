@@ -49,3 +49,11 @@
 #### Gerar mockery para testes
 
 > mockery --all --keeptree
+
+### Criar e inicializar os conteiners do docker-compose
+
+> docker-compose up -d
+
+### Encerrar e eliminar o conteiner do docker-compose
+
+> docker compose down
