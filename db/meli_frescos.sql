@@ -1,4 +1,4 @@
--- Active: 1657031674704@@127.0.0.1@3306@meli_frescos
+-- Active: 1657031674704@@127.0.0.1@3306
 DROP SCHEMA IF EXISTS meli_frescos;
 CREATE SCHEMA meli_frescos;
 USE meli_frescos;
