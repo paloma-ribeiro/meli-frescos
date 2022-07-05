@@ -99,15 +99,18 @@ func (m mariadbRepository) Create(ctx context.Context, employee *domain.Employee
 }
 
 func (m mariadbRepository) Update(ctx context.Context, employee *domain.Employee) (*domain.Employee, error) {
-	var newEmployee domain.Employee
+	newEmployee := domain.Employee{}
 
 	result, err := m.db.ExecContext(ctx, queryCreate,
+		&employee.ID,
 		&employee.CardNumberId,
 		&employee.FirstName,
 		&employee.LastName,
 		&employee.WarehouseId,
-		&employee.ID,
 	)
+	if err != nil {
+		return &newEmployee, err
+	}
 
 	affectedRows, err := result.RowsAffected()
 
