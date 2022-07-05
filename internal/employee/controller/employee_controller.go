@@ -26,6 +26,11 @@ type EmployeeController struct {
 	service domain.EmployeeService
 }
 
+type AppError struct {
+	Message string
+	Code    int
+}
+
 func NewEmployeeController(service domain.EmployeeService) (*EmployeeController, error) {
 	if service == nil {
 		return nil, domain.ErrInvalidService
