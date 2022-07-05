@@ -12,14 +12,14 @@ type requestEmployeeCreate struct {
 	CardNumberId string `json:"card_number_id" binding:"required"`
 	FirstName    string `json:"first_name" binding:"required"`
 	LastName     string `json:"last_name" binding:"required"`
-	WarehouseId  int    `json:"warehouse_id" binding:"required"`
+	WarehouseId  int64  `json:"warehouse_id" binding:"required"`
 }
 
 type requestEmployeeUpdate struct {
 	CardNumberId string `json:"card_number_id"`
 	FirstName    string `json:"first_name"`
 	LastName     string `json:"last_name"`
-	WarehouseId  int    `json:"warehouse_id"`
+	WarehouseId  int64  `json:"warehouse_id"`
 }
 
 type EmployeeController struct {
@@ -75,7 +75,7 @@ func (c EmployeeController) GetAll() gin.HandlerFunc {
 func (c EmployeeController) GetById() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 
-		id, err := strconv.Atoi(ctx.Param("id"))
+		id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
 		if err != nil {
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
@@ -141,7 +141,7 @@ func (c EmployeeController) Create() gin.HandlerFunc {
 func (c EmployeeController) Update() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 
-		id, err := strconv.Atoi(ctx.Param("id"))
+		id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
 		if err != nil {
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
@@ -182,7 +182,7 @@ func (c EmployeeController) Update() gin.HandlerFunc {
 func (c EmployeeController) Delete() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 
-		id, err := strconv.Atoi(ctx.Param("id"))
+		id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
 		if err != nil {
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
