@@ -4,13 +4,42 @@ import (
 	"log"
 
 	"github.com/gin-gonic/gin"
+	_ "github.com/go-sql-driver/mysql"
+	"github.com/joho/godotenv"
+
+	"github.com/paloma-ribeiro/meli-frescos/cmd/server/routes"
+	"github.com/paloma-ribeiro/meli-frescos/db"
+
+	//"github.com/swaggo/gin-swagger/swaggerFiles"
+	"github.com/swaggo/swag/example/basic/docs"
 )
 
+// @title MERCADO FRESCOS
+// @version 1.0
+// @description This API Handle MELI Products.
+// @termsOfService https://developers.mercadolibre.com.ar/es_ar/terminos-y-condiciones
+
+// @contact.name API Support
+// @contact.url https://developers.mercadolibre.com.ar/support
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host localhost:8080
+// BasePath /api/v1
+// @query.collection.format multi
+
 func main() {
-	router := gin.Default()
-
-	if err := router.Run(); err != nil {
-		log.Fatal("failed to start the server. err:", err)
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal(err)
 	}
-
+	dbConnection := db.GetDBConnection()
+	PATH := "/api/v1"
+	router := gin.Default()
+	routerGroup := router.Group(PATH)
+	routes.AddRoutes(routerGroup, dbConnection)
+	docs.SwaggerInfo.BasePath = PATH
+	//router.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	router.Run()
 }
