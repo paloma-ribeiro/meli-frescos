@@ -25,19 +25,6 @@
 ### Instalação GoDotEnv
 
 > go get github.com/joho/godotenv
-
-### Instalação do Swagger
-
-> go get -u github.com/swaggo/swag/cmd/swag
-
-> go get -u github.com/swaggo/files
-
-> go get -u github.com/swaggo/gin-swagger
-
-#### Gerar documentação com swagger
-
-> swag init -g cmd/server/main.go
-
 ### Instalação do Testify
 
 > go get github.com/stretchr/testify
@@ -54,6 +41,17 @@
 
 > mockery --all --keeptree
 
+### Instalação do Swagger
+
+> go get -u github.com/swaggo/swag/cmd/swag
+
+> go get -u github.com/swaggo/files
+
+> go get -u github.com/swaggo/gin-swagger
+
+#### Gerar documentação com swagger
+
+> swag init -g cmd/server/main.go
 ### Criar e inicializar os conteiners do docker-compose
 
 > docker-compose up -d
@@ -61,3 +59,4 @@
 ### Encerrar e eliminar o conteiner do docker-compose
 
 > docker compose down
+
