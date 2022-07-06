@@ -38,4 +38,13 @@ func TestCreate(t *testing.T) {
 
 		assert.Equal(t, "123a", employee.CardNumberId)
 	})
+
+	t.Run("failed to create", func(t *testing.T) {
+		mock.ExpectExec(regexp.QuoteMeta(queryCreate)).WithArgs("123a", "Maria", "Do Bairro", 12)
+
+		employeeRepository := NewMariaDBRepository(db)
+		_, err = employeeRepository.Create(context.TODO(), mockEmployee)
+
+		assert.Error(t, err)
+	})
 }
