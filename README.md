@@ -25,6 +25,21 @@
 ### Instalação GoDotEnv
 
 > go get github.com/joho/godotenv
+### Instalação do Testify
+
+> go get github.com/stretchr/testify
+
+### Instalação DATA-DOG sqlmock
+
+> go get github.com/DATA-DOG/go-sqlmock
+
+### Instalação do Mockery
+
+> brew install mockery
+
+#### Gerar mockery para testes
+
+> mockery --all --keeptree
 
 ### Instalação do Swagger
 
@@ -37,19 +52,6 @@
 #### Gerar documentação com swagger
 
 > swag init -g cmd/server/main.go
-
-### Instalação do Testify
-
-> go get github.com/stretchr/testify
-
-### Instalação do Mockery
-
-> brew install mockery
-
-#### Gerar mockery para testes
-
-> mockery --all --keeptree
-
 ### Criar e inicializar os conteiners do docker-compose
 
 > docker-compose up -d
@@ -57,3 +59,4 @@
 ### Encerrar e eliminar o conteiner do docker-compose
 
 > docker compose down
+
